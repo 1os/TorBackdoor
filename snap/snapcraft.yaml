@@ -1,5 +1,5 @@
 name: torbackdoor
-#base: core18
+base: core20
 #title: Tor service with bash console
 architectures:
   - build-on: i386
@@ -14,22 +14,23 @@ grade: stable # must be 'stable' to release into candidate/stable channels
 confinement: strict # use 'strict' once you have the right plugs and slots
 icon: ./icon.png
 
-apps:    
-  torwebserver:
-    command: eou/EthOverUsb.sh -e
-    daemon: simple
-    restart-condition: always
-    plugs: [network, network-bind]
+# apps:    
+  # torwebserver:
+  #   command: eou/EthOverUsb.sh -e
+  #   daemon: simple
+  #   restart-condition: always
+  #   plugs: [network, network-bind]
 
 parts:
+  deps:
+    plugin: nil
+    stage-packages:
+      - tor
+      - php
+      - nginx  
   etc:
     source: etc/
     plugin: dump
   www:
     source: www/
     plugin: dump
-    stage-snaps:
-      - tor-mkg20001
-    stage-packages:
-      - php
-      - nginx  
